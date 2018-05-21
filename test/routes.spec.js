@@ -88,7 +88,7 @@ describe('API routes', () => {
         .post('/api/v1/photos')
         .send({title: 'no-url'})
         .end((error, response) => {
-          response.should.have.status(406);
+          response.should.have.status(400);
           response.should.be.json;
           response.body.should.be.an('object');
           response.body.should.have.property('message');
@@ -100,11 +100,41 @@ describe('API routes', () => {
 
   describe('DELETE /api/v1/photos', () => {
     it('should delete a photo', (done) => {
-
+      chai.request(app)
+        .delete('/api/v1/photos')
+        .send({id: 2})
+        .end((error, response) => {
+          response.should.have.status(204);
+          done();
+        });
     });
 
-    it('should return error if invalid id supplied', (done) => {
+    it('should return an error if no id supplied', (done) => {
+      chai.request(app)
+        .delete('/api/v1/photos')
+        .send({})
+        .end((error, response) => {
+          response.should.have.status(400);
+          response.should.be.json;
+          response.body.should.be.an('object');
+          response.body.should.have.property('message');
+          response.body.message.should.equal('You must include an id to delete');
+          done();
+        })
+    })
 
+    it('should return error if invalid id supplied', (done) => {
+      chai.request(app)
+        .delete('/api/v1/photos')
+        .send({id: 'photo'})
+        .end((error, response) => {
+          response.should.have.status(400);
+          response.should.be.json;
+          response.body.should.be.an('object');
+          response.body.should.have.property('message');
+          response.body.message.should.equal('You must include a valid id to delete');
+          done();
+        })
     });
   });
 });
