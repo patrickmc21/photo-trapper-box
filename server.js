@@ -20,6 +20,21 @@ app.get('/api/v1/photos', (req, res) => {
     });
 });
 
+app.post('/api/v1/photos', (req, res) => {
+  const { title, url } = req.body;
+
+  if (!title || !url) {
+    res.status(400).json({message: 'Please supply a valid title and url'})
+  }
+  db('photos').insert(req.body, ['id', 'title', 'url'])
+    .then(photo => {
+      res.status(201).json(photo[0]);
+    })
+    .catch(error => {
+      res.status(500).json({error, message: 'Failed to post photo'});
+    });
+});
+
 app.listen(app.get('port'), () => {
   console.log(`Server is listening on ${app.get('port')}...`)
 })
