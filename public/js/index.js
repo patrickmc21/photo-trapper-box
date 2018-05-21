@@ -30,13 +30,9 @@ const collectUserInput = async (event) => {
   const title = $('#title').val();
   const url = $('#url').val();
   try {
-    // post request
     const photo = await postPhoto(title, url);
-    // add to phototrapper
     photoTrapper.addPhotos([photo]);
-    // append photo
     generatePhotoContainerContent([photo]);
-    // clear inputs
     $('#title').val('');
     $('#url').val('');
   } catch (error) {
@@ -44,11 +40,16 @@ const collectUserInput = async (event) => {
   }
 };
 
-const removePhoto = () => {
-  // extract id from selected DOM node
-  // remove from phototrapper
-  // DELETE request
-  // re-render photos
+async function removePhoto(){
+  try {
+    const id = $(this).data('photoid');
+    await deletePhoto(id)
+    photoTrapper.removePhoto(id);
+    $('.main__photo-container').html('')
+    generatePhotoContainerContent(photoTrapper.photos)
+  } catch (error) {
+    $('.main__form-container--error-message').text(error);
+  }
 };
 
 const getPhotos = async () => {
@@ -85,9 +86,26 @@ const postPhoto = async (title, url) => {
   }
 };
 
+const deletePhoto = (id) => {
+  const endPoint = '/api/v1/photos';
+  const options = {
+    method: 'DELETE',
+    body: JSON.stringify({ id }),
+    headers: {
+      'Content-type': 'application/json'
+    }
+  };
+
+  try {
+    fetch(endPoint, options);
+  } catch (error) {
+    return error.message;
+  }
+}
+
 const createPhotoCard = (photo) => {
   return `
-    <article class="main__photo-container--photo-card" data-photoId="${photo.id}">
+    <article class="main__photo-container--photo-card">
       <div class="main__photo-container--photo-card__image-container">
         <img class="main__photo-container--photo-card__image-container--img" src="${photo.url}">
       </div>
@@ -95,7 +113,7 @@ const createPhotoCard = (photo) => {
         <h2 class="main__photo-container--photo-card__title-container--title">
           ${photo.title}
         </h2>
-        <button class="remove-btn">
+        <button class="remove-btn" data-photoId="${photo.id}">
           Remove
         </button>
       </div>
