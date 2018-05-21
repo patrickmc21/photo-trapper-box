@@ -113,7 +113,6 @@ describe('API routes', () => {
     it('should return an error if no id supplied', (done) => {
       chai.request(app)
         .delete('/api/v1/photos')
-        .send({})
         .end((error, response) => {
           response.should.have.status(400);
           response.should.be.json;
