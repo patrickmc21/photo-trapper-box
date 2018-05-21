@@ -86,9 +86,10 @@ const postPhoto = async (title, url) => {
   try {
     const response = await fetch(endPoint, options);
     const photo = await response.json();
-
+    console.log(response)
     return photo;
   } catch (error) {
+    console.log(error)
     return error.message
   }
 };
