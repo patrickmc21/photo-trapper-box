@@ -18,6 +18,7 @@ const photoTrapper = new PhotoTrapper();
 const populatePhotosOnLoad = async () => {
   try {
     const photos = await getPhotos();
+    
     photoTrapper.addPhotos(photos);
     generatePhotoContainerContent(photos);
   } catch (error) {
@@ -29,8 +30,10 @@ const collectUserInput = async (event) => {
   event.preventDefault();
   const title = $('#title').val();
   const url = $('#url').val();
+
   try {
     const photo = await postPhoto(title, url);
+
     photoTrapper.addPhotos([photo]);
     generatePhotoContainerContent([photo]);
     $('#title').val('');
@@ -43,6 +46,7 @@ const collectUserInput = async (event) => {
 async function removePhoto(){
   try {
     const id = $(this).data('photoid');
+
     await deletePhoto(id)
     photoTrapper.removePhoto(id);
     $('.main__photo-container').html('')
@@ -58,6 +62,7 @@ const getPhotos = async () => {
   try {
     const response = await fetch(endPoint);
     const photos = response.json();
+
     return photos;
   } catch (error) {
     return error.message;
@@ -68,6 +73,7 @@ const postPhoto = async (title, url) => {
   if (!title || !url) {
     throw Error({message: 'You must include title and url'})
   }
+
   const endPoint = '/api/v1/photos';
   const options = {
     method: 'POST',
@@ -80,6 +86,7 @@ const postPhoto = async (title, url) => {
   try {
     const response = await fetch(endPoint, options);
     const photo = await response.json();
+
     return photo;
   } catch (error) {
     return error.message
@@ -125,6 +132,7 @@ const generatePhotoContainerContent = (photos) => {
   const photoHTML = photos.reduce((html, photo) => {
     return html + createPhotoCard(photo);
   }, '') ;
+
   $('.main__photo-container').append(photoHTML);
 };
 

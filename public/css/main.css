@@ -1,0 +1,96 @@
+header {
+  padding: 20px 0 0 20px;
+  height: 80px;
+  width: 100vw;
+  background-color: #315184;
+  box-sizing: border-box;
+}
+
+.header {
+  color: #71ccd7;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 36px;
+}
+
+.header--sub {
+  color: #5fc4a1;
+  font-weight: 700;
+}
+
+.main__form-container {
+  height: 200px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin: auto;
+  height: 200px;
+  width: 50%;
+}
+
+label {
+  height: 30px;
+  width: 50%;
+}
+
+input {
+  height: 30px;
+  width: 100%;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+#submit {
+  border: none;
+  border: 1px solid black;
+  height: 40px;
+}
+
+.main__photo-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
+}
+
+.main__photo-container--photo-card {
+  display: inline-block;
+  border: 1px solid black;
+  margin: 1%;
+  height: 300px;
+  width: 200px;
+}
+
+.main__photo-container--photo-card__image-container {
+  padding: 5px;
+  height: 210px;
+}
+
+.main__photo-container--photo-card__title-container {
+  height: 60px;
+}
+
+.main__photo-container--photo-card__image-container--img {
+  height: 200px;
+  width: 190px;
+}
+
+.main__photo-container--photo-card__title-container--title {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.remove-btn {
+  display: block;
+  margin: 10px auto;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+
