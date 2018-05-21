@@ -63,11 +63,38 @@ describe('API routes', () => {
 
   describe('POST /api/v1/photos', () => {
     it('should post a photo', (done) => {
-
+      chai.request(app)
+        .post('/api/v1/photos')
+        .send({
+          title: 'river',
+          url: 'riverurl.com/jpg'
+        })
+        .end((error, response) => {
+          response.should.have.status(201);
+          response.should.be.json;
+          response.should.be.an('object');
+          response.body.should.have.property('id');
+          response.body.id.should.equal(3);
+          response.body.should.have.property('title');
+          response.body.title.should.equal('river');
+          response.body.should.have.property('url');
+          response.body.url.should.equal('riverurl.com/jpg');
+          done();
+        })
     });
 
     it('should return error if invalid photo object supplied', (done) => {
-
+      chai.request(app)
+        .post('/api/v1/photos')
+        .send({title: 'no-url'})
+        .end((error, response) => {
+          response.should.have.status(406);
+          response.should.be.json;
+          response.body.should.be.an('object');
+          response.body.should.have.property('message');
+          response.body.message.should.equal('Please supply a valid title and url');
+          done();
+        })
     });
   });
 
