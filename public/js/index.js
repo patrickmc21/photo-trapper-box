@@ -3,8 +3,8 @@ class PhotoTrapper {
     this.photos = [];
   }
 
-  addPhoto(photo) {
-    this.photos = [...this.photos, photo];
+  addPhotos(photos) {
+    this.photos = [...this.photos, ...photos];
   }
 
   removePhoto(id) {
@@ -15,10 +15,13 @@ class PhotoTrapper {
 
 const photoTrapper = new PhotoTrapper();
 
-const populatePhotosOnLoad = () => {
+const populatePhotosOnLoad = async () => {
   // get request
+  const photos = await getPhotos();
   // add to phototrapper
+  photoTrapper.addPhotos(photos);
   // append photos
+  generatePhotoContainerContent(photos);
 };
 
 const collectUserInput = (e) => {
@@ -38,22 +41,45 @@ const removePhoto = () => {
   // re-render photos
 };
 
-const appendPhoto = (photo) => {
+const getPhotos = async () => {
+  const url = '/api/v1/photos';
+
+  try {
+    const response = await fetch(url);
+    const photos = response.json();
+    return photos;
+  } catch (error) {
+    return error.message;
+  }
+};
+
+const createPhotoCard = (photo) => {
+  console.log(photo.url)
   return `
     <article class="main__photo-container--photo-card" data-photoId="${photo.id}">
       <div class="main__photo-container--photo-card__image-container">
-        <img class="main__photo-container--photo-card__image-container--img src="${photo.url}">
+        <img class="main__photo-container--photo-card__image-container--img" src="${photo.url}">
       </div>
       <div class="main__photo-container--photo-card__title-container">
         <h2 class="main__photo-container--photo-card__title-container--title">
           ${photo.title}
         </h2>
+        <button class="remove-btn">
+          Remove
+        </button>
       </div>
     </article>
   `
 };
 
+const generatePhotoContainerContent = (photos) => {
+  const photoHTML = photos.reduce((html, photo) => {
+    return html + createPhotoCard(photo);
+  }, '') ;
+  $('.main__photo-container').append(photoHTML);
+};
 
-
-$()
+$(document).ready(populatePhotosOnLoad);
+$('#submit').on('click', collectUserInput);
+$('.main__photo-container').on('click', '.remove-btn', removePhoto);
 
