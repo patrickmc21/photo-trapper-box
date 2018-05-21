@@ -30,7 +30,7 @@ const collectUserInput = async (event) => {
   event.preventDefault();
   const title = $('#title').val();
   const url = $('#url').val();
-
+  console.log(title, url);
   try {
     const photo = await postPhoto(title, url);
 
