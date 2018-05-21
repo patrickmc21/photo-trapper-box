@@ -28,4 +28,28 @@ describe('Client Routes', () => {
 
 describe('API routes', () => {
 
+  beforeEach(() => {
+    db.migrate.rollback()
+      .then(() => {
+        db.migrate.latest()
+          .then(() => {
+            return db.seed.run()
+              .then(() => {
+                done();
+              });
+          });
+      });
+  });
+
+  describe('GET /api/v1/photos', () => {
+
+  });
+
+  describe('POST /api/v1/photos', () => {
+
+  });
+
+  describe('DELETE /api/v1/photos', () => {
+
+  });
 });
