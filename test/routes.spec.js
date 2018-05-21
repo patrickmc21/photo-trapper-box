@@ -29,16 +29,17 @@ describe('Client Routes', () => {
 describe('API routes', () => {
 
   beforeEach(() => {
-    db.migrate.rollback()
+    return db.migrate.rollback()
       .then(() => {
-        db.migrate.latest()
-          .then(() => {
-            return db.seed.run()
-              .then(() => {
-                done();
-              });
-          });
-      });
+        return db.migrate.latest()
+      })
+      .then(() => {
+        return db.seed.run()            
+      })
+      .catch(error => {
+        console.log(error)
+        return error
+      })
   });
 
   describe('GET /api/v1/photos', () => {
