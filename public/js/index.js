@@ -30,7 +30,6 @@ const collectUserInput = async (event) => {
   event.preventDefault();
   const title = $('#title').val();
   const url = $('#url').val();
-  console.log(title, url);
   try {
     const photo = await postPhoto(title, url);
 
@@ -86,10 +85,8 @@ const postPhoto = async (title, url) => {
   try {
     const response = await fetch(endPoint, options);
     const photo = await response.json();
-    console.log(response)
     return photo;
   } catch (error) {
-    console.log(error)
     return error.message
   }
 };
