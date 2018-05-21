@@ -3,11 +3,37 @@
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" type="text/css" href="css/reset.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,700" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="css/main.css">
   <title>Photo Trapper</title>
 </head>
 <body>
-
-</body>
+  <header>
+    <h1 class="header">photo<span class="header--sub">Trapper</span></h1>
+  </header>
+  <main>
+    <section class="main__form-container">
+      <form>
+        <label for="title">
+          <input type="text" name="title" id="title" placeholder="Title">
+        </label>
+        <label for="url">
+          <input type="text" name="url" id="url" placeholder="Photo source (url)">
+        </label>
+        <label for="submit">
+          <input type="submit" name="submit" id="submit" value="Add to Album!">
+        </label>
+        <p class="main__form-container--error-message">
+      </form>
+    </section>
+    <section class="main__photo-container">
+      
+    </section>
+  </main>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
 <script type="text/javascript" src="js/index.js"></script>
+</body>
 </html>
