@@ -7,6 +7,5 @@ exports.seed = function(knex, Promise) {
         {title: 'mountain', url: 'https://mountainprojectmt.com/wp-content/uploads/2016/04/climb2-2.jpg'}
       ])
     })
-    .then(() => console.log('successful seeding'))
     .catch((error) => console.log('Error: ', error))
 };
