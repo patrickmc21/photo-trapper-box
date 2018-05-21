@@ -16,22 +16,32 @@ class PhotoTrapper {
 const photoTrapper = new PhotoTrapper();
 
 const populatePhotosOnLoad = async () => {
-  // get request
-  const photos = await getPhotos();
-  // add to phototrapper
-  photoTrapper.addPhotos(photos);
-  // append photos
-  generatePhotoContainerContent(photos);
+  try {
+    const photos = await getPhotos();
+    photoTrapper.addPhotos(photos);
+    generatePhotoContainerContent(photos);
+  } catch (error) {
+    $('.main__form-container--error-message').text(error);
+  }
 };
 
-const collectUserInput = (e) => {
-  e.preventdefault();
+const collectUserInput = async (event) => {
+  event.preventDefault();
   const title = $('#title').val();
   const url = $('#url').val();
-  // post request
-  // add to phototrapper
-  // append photo
-  // clear inputs
+  try {
+    // post request
+    const photo = await postPhoto(title, url);
+    // add to phototrapper
+    photoTrapper.addPhotos([photo]);
+    // append photo
+    generatePhotoContainerContent([photo]);
+    // clear inputs
+    $('#title').val('');
+    $('#url').val('');
+  } catch (error) {
+    $('.main__form-container--error-message').text(error);
+  }
 };
 
 const removePhoto = () => {
@@ -42,10 +52,10 @@ const removePhoto = () => {
 };
 
 const getPhotos = async () => {
-  const url = '/api/v1/photos';
+  const endPoint = '/api/v1/photos';
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(endPoint);
     const photos = response.json();
     return photos;
   } catch (error) {
@@ -53,8 +63,29 @@ const getPhotos = async () => {
   }
 };
 
+const postPhoto = async (title, url) => {
+  if (!title || !url) {
+    throw Error({message: 'You must include title and url'})
+  }
+  const endPoint = '/api/v1/photos';
+  const options = {
+    method: 'POST',
+    body: JSON.stringify({title, url}),
+    headers: {
+      'Content-type': 'application/json'
+    }
+  };
+
+  try {
+    const response = await fetch(endPoint, options);
+    const photo = await response.json();
+    return photo;
+  } catch (error) {
+    return error.message
+  }
+};
+
 const createPhotoCard = (photo) => {
-  console.log(photo.url)
   return `
     <article class="main__photo-container--photo-card" data-photoId="${photo.id}">
       <div class="main__photo-container--photo-card__image-container">
