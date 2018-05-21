@@ -4,6 +4,7 @@
   "description": "A box to track your trapped photoss",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Pat McLaughlin",
