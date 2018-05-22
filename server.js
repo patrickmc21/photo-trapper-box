@@ -24,7 +24,7 @@ app.post('/api/v1/photos', (req, res) => {
   const { title, url } = req.body;
 
   if (!title || !url) {
-    return res.status(400).json({message: 'Please supply a valid title and url'})
+    return res.status(422).json({message: 'Please supply a valid title and url'})
   }
   db('photos').insert(req.body, ['id', 'title', 'url'])
     .then(photo => {
@@ -35,18 +35,17 @@ app.post('/api/v1/photos', (req, res) => {
     });
 });
 
-app.delete('/api/v1/photos', (req, res) => {
-  const { id } = req.body;
-
+app.delete('/api/v1/photos/:id', (req, res) => {
+  const { id } = req.params;
   if (!id) {
-    return res.status(400).json({message: 'You must include an id to delete'})
+    return res.status(404).json({message: 'You must include an id to delete'})
   }
   db('photos').where('id', id).del()
     .then(() => {
       return res.sendStatus(204);
     })
     .catch(error => {
-      return res.status(400).json({error, message: 'You must include a valid id to delete'});
+      return res.status(404).json({error, message: 'You must include a valid id to delete'});
     });
 });
 

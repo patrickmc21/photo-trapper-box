@@ -89,7 +89,7 @@ describe('API routes', () => {
         .post('/api/v1/photos')
         .send({title: 'no-url'})
         .end((error, response) => {
-          response.should.have.status(400);
+          response.should.have.status(422);
           response.should.be.json;
           response.body.should.be.an('object');
           response.body.should.have.property('message');
@@ -99,11 +99,10 @@ describe('API routes', () => {
     });
   });
 
-  describe('DELETE /api/v1/photos', () => {
+  describe('DELETE /api/v1/photos/:id', () => {
     it('should delete a photo', (done) => {
       chai.request(app)
-        .delete('/api/v1/photos')
-        .send({id: 2})
+        .delete('/api/v1/photos/2')
         .end((error, response) => {
           response.should.have.status(204);
           done();
@@ -114,21 +113,17 @@ describe('API routes', () => {
       chai.request(app)
         .delete('/api/v1/photos')
         .end((error, response) => {
-          response.should.have.status(400);
-          response.should.be.json;
+          response.should.have.status(404);
           response.body.should.be.an('object');
-          response.body.should.have.property('message');
-          response.body.message.should.equal('You must include an id to delete');
           done();
         })
     })
 
     it('should return error if invalid id supplied', (done) => {
       chai.request(app)
-        .delete('/api/v1/photos')
-        .send({id: 'photo'})
+        .delete('/api/v1/photos/cat')
         .end((error, response) => {
-          response.should.have.status(400);
+          response.should.have.status(404);
           response.should.be.json;
           response.body.should.be.an('object');
           response.body.should.have.property('message');
