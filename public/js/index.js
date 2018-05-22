@@ -92,10 +92,9 @@ const postPhoto = async (title, url) => {
 };
 
 const deletePhoto = (id) => {
-  const endPoint = '/api/v1/photos';
+  const endPoint = `/api/v1/photos/${id}`;
   const options = {
     method: 'DELETE',
-    body: JSON.stringify({ id }),
     headers: {
       'Content-type': 'application/json'
     }
