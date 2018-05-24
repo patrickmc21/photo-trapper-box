@@ -109,25 +109,15 @@ describe('API routes', () => {
         });
     });
 
-    it('should return an error if no id supplied', (done) => {
-      chai.request(app)
-        .delete('/api/v1/photos')
-        .end((error, response) => {
-          response.should.have.status(404);
-          response.body.should.be.an('object');
-          done();
-        })
-    })
-
     it('should return error if invalid id supplied', (done) => {
       chai.request(app)
-        .delete('/api/v1/photos/cat')
+        .delete('/api/v1/photos/4')
         .end((error, response) => {
           response.should.have.status(404);
           response.should.be.json;
           response.body.should.be.an('object');
           response.body.should.have.property('message');
-          response.body.message.should.equal('You must include a valid id to delete');
+          response.body.message.should.equal('Photo not found');
           done();
         })
     });
